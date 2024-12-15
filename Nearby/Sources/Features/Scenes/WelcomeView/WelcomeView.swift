@@ -8,6 +8,8 @@
 import UIKit
 
 class WelcomeView: UIView {
+    var didTapButton: (() -> Void)?
+    
     private let logoImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "logoIcon"))
         imageView.contentMode = .scaleAspectFit
@@ -56,12 +58,13 @@ class WelcomeView: UIView {
     
     private let startButton: UIButton = {
         let buttom = UIButton(type: .system)
-        buttom.translatesAutoresizingMaskIntoConstraints = false
         buttom.setTitle("Começar", for: .normal)
         buttom.backgroundColor = Colors.greenBase
         buttom.titleLabel?.font = Typography.action
         buttom.setTitleColor(Colors.gray100, for: .normal)
         buttom.layer.cornerRadius = 8
+        buttom.addTarget(self, action: #selector(didTab), for: .touchUpInside)
+        buttom.translatesAutoresizingMaskIntoConstraints = false
         return buttom
     }()
     
@@ -111,6 +114,11 @@ class WelcomeView: UIView {
             startButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             startButton.heightAnchor.constraint(equalToConstant: 56)
         ])
+    }
+    
+    @objc
+    private func didTab() {
+        didTapButton?()
     }
     
     private func setupTips() {
